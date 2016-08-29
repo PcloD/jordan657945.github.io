@@ -1,6 +1,7 @@
 body {
 	background-color: #EEE;
 	font-family: Calibri;
+	background-color: rgba(0, 0, 0, 0);
 }
 
 html {
@@ -21,14 +22,14 @@ html {
 }
 
 #container {
-	background-color: white;
+	background-color: rgba(0, 0, 0, 0);
 	width: 800px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 #header {
-	background-color: #66CCFF;
+	background-color: rgba(0, 0, 0, 0);
 	text-align: center;
 }
 
