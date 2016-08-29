@@ -90,7 +90,7 @@ function userJSONCallback(data) {
 	var user_id = data.id;
 	artist = data.username;
 	
-	var tracks = "http://api.soundcloud.com/users/" + user_id + "/tracks.json?client_id=" + client_id + "&limit=200";
+	var tracks = "https://api.soundcloud.com/users/" + user_id + "/tracks.json?client_id=" + client_id + "&limit=200";
 
 	getJSON(tracks, tracksJSONCallback); // continues in tracksJSONCallback
 }
