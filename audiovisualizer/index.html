@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+	<head>		
+		<title id="pagetitle">Audio Visualizer</title>
+		
+		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+		<script type="text/javascript" src="script.js"></script>
+		
+		<div id="hideHead">
+			<iframe id="soundcloud" allowtransparency="true" scrolling="no" frameborder="no" src="https://w.soundcloud.com/icon/?url=http%3A%2F%2Fsoundcloud.com&color=white_orange&size=32" style="width: 32px; height: 32px;"></iframe>
+		</div>
+	</head>
+	
+	<body onload="initPage()" onresize="resize_canvas()">
+			<canvas id="visualizer_render"></canvas>
+			
+			<div id="image">
+				<img id="artwork" width="150" height="150">
+			</div>
+			
+			<div id="artisttitle">
+				<h1 id="artistname"></h1>
+			</div>
+				
+			<div id="songtitle">
+				<h1 id="songname"></h1>
+			</div>
+			
+			<div id="hideBody">
+				<div id="title">
+					<h2>HTML Canvas Audio Visualizer</h2>
+				</div>
+				
+				<div id="instruction">
+					<h4>Enter your SoundCloud Track URL here:</h4>
+				</div>
+			
+				<div id="URLbox">
+					<input 
+						id="input_URL" 
+						type="textbox"
+						class="textbox"
+						name="URL"
+						type="text" 
+						value="https://soundcloud.com/user/trackname"
+						style="width: 300px;"
+						onclick="autoSelect()"
+					/>		
+				</div>
+			
+				<div id="button_play">
+					<button 
+						type="button"
+						class="button"
+						onclick="handleButton()" 
+					>Play</button>
+				</div>
+					
+				<div id="button_pause">
+					<button
+						type="button"
+						class="button"
+						onclick="togglepause()"
+					>Pause</button>
+				</div>
+			</div>
+	</body>
+	
+</html>

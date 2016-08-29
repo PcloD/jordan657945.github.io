@@ -1,0 +1,96 @@
+body{
+	margin: 0;
+	padding: 0;
+	display: block;
+	overflow: hidden;
+	
+	font-family: Arial, Calibri
+}
+
+.button {
+    background-color: #6600ff;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.textbox { 
+    background: white; 
+    border: 1px solid #6600ff; 
+    border-radius: 5px; 
+    box-shadow: 0 0 5px 3px #6600ff; 
+    color: #666; 
+    outline: none; 
+    height:23px; 
+    width: 275px; 
+}
+
+#title {
+	color: white;	
+	position: absolute;
+	bottom: 0%;
+	left: 0%;
+}
+
+#instruction {
+	color: white;
+	position: absolute;
+	bottom: 65px;
+	left: 0%;
+}
+
+#image {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+}
+
+#soundcloud {
+	position: absolute;
+	bottom: 50px;
+	left: 310px;
+}
+
+#artisttitle {
+	color: white;
+	position: absolute;
+	top: 40px;
+	left: 170px;
+	font-size: 50%;
+}
+
+#songtitle {
+	color: white;
+	position: absolute;
+	top: 0px;
+	left: 170px;
+	font-size: 70%;
+}
+
+#URLbox {
+	z-index: 2;
+	position: absolute;
+	bottom: 55px; 
+	left: 0px; 
+	width: 300px;
+}
+
+#button_play {
+	z-index: 2;
+	position: absolute;
+	bottom: 110px;
+	left: 0px;
+}
+
+#button_pause {
+	z-index: 2;
+	position: absolute;
+	bottom: 110px;
+	left: 50px;
+}
