@@ -2,12 +2,12 @@ body {
 	background-color: #EEE;
 	font-family: Calibri;
 	background-color: rgba(0, 0, 0, 0);
+	color: #ffffcc;
+	//color: white;
 }
 
 html {
 	height: 100%;
-	
-	background-repeat: no-repeat;
 	
 	-webkit-background-size: cover;
     -moz-background-size: cover;
@@ -19,6 +19,8 @@ html {
     background: -o-linear-gradient(#1fb1b9, #dcd1d9); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(#1fb1b9, #dcd1d9); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#1fb1b9, #dcd1d9); /* Standard syntax */
+	
+	//background-repeat: no-repeat;
 }
 
 #container {
