@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		
+		<title>N-Body Gravity Sim.</title>
+		
+		<script type="text/javascript" src="script.js">
+		</script>
+		
+		<style type="text/css">
+			body{
+				margin: 0;
+				padding: 0;
+				display: block;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body onload="main()" oncontextmenu="return false">	
+		<canvas id="frame" style="z-index:1">
+			Go get a better web browser ya dingus
+		</canvas>
+		
+		<button onclick="buttonPressed()" style="z-index:2; position:absolute; bottom:0px; left:0px">
+			Toggle tracing
+		</button>
+		
+		<input name="mass" type="text" value="ignorethis" maxlength="10" id="input_mass" style="z-index:2; position:absolute; bottom:0px; left:150px; width:70px"/>
+		
+	</body>	
+</html>
