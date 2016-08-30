@@ -94,3 +94,25 @@ body{
 	bottom: 110px;
 	left: 50px;
 }
+
+#homelink {
+	position: absolute;
+	bottom: 40px;
+	right: 20px;
+	
+	color: rgb(255, 255, 255);
+	opacity: 0.5;
+}
+
+#credit {
+	position: absolute;
+	bottom: 0px;
+	right: 20px;
+	
+	color: rgb(255, 255, 255);
+	opacity: 0.5;
+}
+
+.link {
+	color: rgb(255, 255, 255);
+}
