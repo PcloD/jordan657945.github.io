@@ -273,7 +273,8 @@ function clicked(event) {
 					
 		pos = mousePos_initial.sub(viewOffset);
 		vel = shoot_vec;//vec2(0, 2);
-		mass = 20 + Math.random() * 100;
+		// mass = 20 + Math.random() * 100;
+		mass = parseInt(document.getElementById("input_mass").value);
 		color = "rgb(255, 255, 255)";
 					
 		return new Particle(pos, vel, mass, color);
