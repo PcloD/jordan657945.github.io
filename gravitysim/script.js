@@ -301,7 +301,7 @@ function runSim() {
 function render() {
 	// bg
 	if(!trace) {
-		ctx.fillStyle = "rgba(0, 0, 0, 1)";
+		ctx.fillStyle = "rgba(15, 15, 40, 1)";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
 		
