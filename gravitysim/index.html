@@ -5,29 +5,28 @@
 		
 		<title>N-Body Gravity Sim.</title>
 		
-		<script type="text/javascript" src="script.js">
-		</script>
-		
-		<style type="text/css">
-			body{
-				margin: 0;
-				padding: 0;
-				display: block;
-				overflow: hidden;
-			}
-		</style>
+		<script type="text/javascript" src="script.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css"/>
 	</head>
 
-	<body onload="main()" oncontextmenu="return false">	
-		<canvas id="frame" style="z-index:1">
+	<body onload="main()" oncontextmenu="return false">
+		<div id="text">
+
+			<h2 class="title">N-Body Gravity Simulator</h2>
+
+			<p class="instructions">Click & drag left mouse button to create a particle. Click & drag right mouse button to move the view.</p>
+			<p class="info" id="siminfo"></p>
+		</div>
+	
+		<canvas id="frame">
 			Go get a better web browser ya dingus
 		</canvas>
 		
-		<button onclick="buttonPressed()" style="z-index:2; position:absolute; bottom:0px; left:0px">
+		<button class="button" onclick="buttonPressed()">
 			Toggle tracing
 		</button>
 		
-		<input name="mass" type="number" value="100" maxlength="10" id="input_mass" style="z-index:2; position:absolute; bottom:0px; left:150px; width:70px"/>
+		<input class="massInput" name="mass" type="number" value="100" maxlength="10" id="input_mass"/>
 		
 	</body>	
 </html>

@@ -272,8 +272,7 @@ function clicked(event) {
 		shoot_vec = (mousePos_final.sub(mousePos_initial)).mul(-0.002);
 					
 		pos = mousePos_initial.sub(viewOffset);
-		vel = shoot_vec;//vec2(0, 2);
-		// mass = 20 + Math.random() * 100;
+		vel = shoot_vec;
 		mass = parseInt(document.getElementById("input_mass").value);
 		color = "rgb(255, 255, 255)";
 					
@@ -307,13 +306,15 @@ function render() {
 	}
 		
 	// text
-	ctx.fillStyle = "white";
-	ctx.font = "20px Calibri";
-	ctx.fillText("N-Body Gravity Simulator", 5, 15);
-	ctx.font = "15px Calibri";
-	ctx.fillText("Click & drag left mouse button to create a particle. Click & drag right mouse button to move the view.", 5, 30);
-	ctx.fillText("simulation speed: " + simspeed * 100 + "%, iterations/sec: " + iterations + ", particles: " + particle_count, 5, 45);
-		
+	//ctx.fillStyle = "white";
+	//ctx.font = "20px Calibri";
+	//ctx.fillText("N-Body Gravity Simulator", 5, 15);
+	//ctx.font = "15px Calibri";
+	//ctx.fillText("Click & drag left mouse button to create a particle. Click & drag right mouse button to move the view.", 5, 30);
+	//ctx.fillText("simulation speed: " + simspeed * 100 + "%, iterations/sec: " + iterations + ", particles: " + particle_count, 5, 45);
+	
+	document.getElementById("siminfo").innerHTML = "simulation speed: " + simspeed * 100 + "%, iterations/sec: " + iterations + ", particles: " + particle_count;
+	
 	for(var i in particles) {
 		particles[i].draw();
 	}
