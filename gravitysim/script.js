@@ -8,16 +8,19 @@ var simspeed, iterations,
 	mousePos = vec2(0, 0), mouseDown = 0, mouseDown2 = 0,
 	shoot_vec = vec2(0, 0), mousePos_final = vec2(0, 0), mousePos_initial = vec2(0, 0),
 	pause = 0, viewOffset = vec2(0, 0), viewOffset_prev = vec2(0, 0),
-	trace = 0, input_spwnmass;
+	trace = 0, input_spwnmass, scale;
 	
 	simspeed = 1;
 	iterations = 144;
 	
-	particle_count = 50;
+	
+	particle_count = 2;
 	gravConstant = 0.001;
 	
 	Dt = 1000/iterations;
 	interval = 1000/(iterations * simspeed);
+	
+	scale = 1;
 				
 // 2D vector functions
 function vector2(x, y) {
@@ -105,7 +108,7 @@ function vector2(x, y) {
 function vec2(x, y) {
 	return new vector2(x, y);
 }
-			
+	
 // randvec - returns a random vector between the min and max vector
 function randvec(min, max) {
 	return vec2(min.x + Math.random() * (max.x - min.x), min.y + Math.random() * (max.y - min.y));
@@ -181,14 +184,21 @@ function Particle(pos, vel, mass, color) {
 				
 	// drawing function
 	this.draw = function() {
-		ctx.translate(viewOffset.x, viewOffset.y);
+		//ctx.translate(viewOffset.x, viewOffset.y);
+		
+		var cartX = (this.pos.x + viewOffset.x) - canvas.width / 2,
+			cartY = -(this.pos.y + viewOffset.y) + canvas.height / 2,
+			cartX_scaled = cartX * scale,
+			cartY_scaled = cartY * scale,
+			renderX = cartX_scaled + canvas.width / 2,
+			renderY = -(cartY_scaled - canvas.height / 2);
 		
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
-		ctx.arc(this.pos.x, this.pos.y, Math.floor(this.radius), 0, Math.PI * 2, false); // avoid floating point coords
+		ctx.arc(renderX, renderY, this.radius * scale, 0, Math.PI * 2, false); // avoid floating point coords
 		ctx.fill();
 		
-		ctx.translate(-viewOffset.x, -viewOffset.y);
+		//ctx.translate(-viewOffset.x, -viewOffset.y);
 	};
 					
 	particleIndex++;
@@ -246,6 +256,13 @@ function main() {
 function getMousePos(event) {
 	mousePos = vec2(event.clientX, event.clientY);
 }	
+
+window.addEventListener("mousewheel", mouseWheelEvent);
+function mouseWheelEvent(e) {
+    var wheelDelta = e.wheelDelta ? e.wheelDelta : -e.detail;
+	scale += wheelDelta * 0.001 * scale;
+}
+
 function clicking(event) {
 	mousePos_initial = mousePos; // mouse pos at time of click
 	
@@ -259,9 +276,9 @@ function clicking(event) {
 	
 	trace = 0;
 }
-			
 function clicked(event) {
-	if(event.button == 0) { // LMB
+	if(event.button == 0) { // LMB		
+	
 		var pos, vel, mass, color;
 		
 		pause = 0;
@@ -271,7 +288,16 @@ function clicked(event) {
 		mousePos_final = mousePos;
 		shoot_vec = (mousePos_final.sub(mousePos_initial)).mul(-0.002);
 					
-		pos = mousePos_initial.sub(viewOffset);
+		// pos = (mousePos_initial.sub(viewOffset);
+		var mousePosCartesianX = (mousePos_initial.x) - canvas.width / 2,
+			mousePosCartesianY = -(mousePos_initial.y) + canvas.height / 2,
+			mousePosXScaled = mousePosCartesianX / scale,
+			mousePosYScaled = mousePosCartesianY / scale,
+			mousePosXWorld = mousePosXScaled + canvas.width / 2,
+			mousePosYWorld = -(mousePosYScaled - canvas.height / 2);
+			
+		pos = vec2(mousePosXWorld, mousePosYWorld).sub(viewOffset);
+		
 		vel = shoot_vec;
 		mass = parseInt(document.getElementById("input_mass").value);
 		color = "rgb(255, 255, 255)";
@@ -328,7 +354,7 @@ function render() {
 	}
 	
 	if(mouseDown2) {
-		viewOffset = viewOffset_prev.add(mousePos.sub(mousePos_initial));
+		viewOffset = viewOffset_prev.add((mousePos.sub(mousePos_initial)).mul(1/scale));
 	}
 }		
 			
