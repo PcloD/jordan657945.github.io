@@ -14,7 +14,7 @@ var simspeed, iterations,
 	iterations = 144;
 	
 	
-	particle_count = 2;
+	particle_count = 50;
 	gravConstant = 0.001;
 	
 	Dt = 1000/iterations;
@@ -186,12 +186,9 @@ function Particle(pos, vel, mass, color) {
 	this.draw = function() {
 		//ctx.translate(viewOffset.x, viewOffset.y);
 		
-		var cartX = (this.pos.x + viewOffset.x) - canvas.width / 2,
-			cartY = -(this.pos.y + viewOffset.y) + canvas.height / 2,
-			cartX_scaled = cartX * scale,
-			cartY_scaled = cartY * scale,
-			renderX = cartX_scaled + canvas.width / 2,
-			renderY = -(cartY_scaled - canvas.height / 2);
+		// calculate position on screen given world position
+		var renderX = ((this.pos.x + viewOffset.x) - canvas.width / 2) * scale + canvas.width / 2,
+			renderY = -(((-(this.pos.y + viewOffset.y) + canvas.height / 2) * scale) - canvas.height / 2);
 		
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
@@ -286,17 +283,11 @@ function clicked(event) {
 		particle_count += 1;
 		
 		mousePos_final = mousePos;
-		shoot_vec = (mousePos_final.sub(mousePos_initial)).mul(-0.002);
+		shoot_vec = (mousePos_final.sub(mousePos_initial)).mul(-0.002 / scale);
 					
-		// pos = (mousePos_initial.sub(viewOffset);
-		var mousePosCartesianX = (mousePos_initial.x) - canvas.width / 2,
-			mousePosCartesianY = -(mousePos_initial.y) + canvas.height / 2,
-			mousePosXScaled = mousePosCartesianX / scale,
-			mousePosYScaled = mousePosCartesianY / scale,
-			mousePosXWorld = mousePosXScaled + canvas.width / 2,
-			mousePosYWorld = -(mousePosYScaled - canvas.height / 2);
-			
-		pos = vec2(mousePosXWorld, mousePosYWorld).sub(viewOffset);
+		// sorry about this mess below (lots of calculation to convert the mousePos to a world position) (doubt it can be simplified)
+		pos = vec2( (((mousePos_initial.x) - canvas.width / 2) / scale) + canvas.width / 2,
+			-(((-(mousePos_initial.y) + canvas.height / 2) / scale) - canvas.height / 2) ).sub(viewOffset);
 		
 		vel = shoot_vec;
 		mass = parseInt(document.getElementById("input_mass").value);
