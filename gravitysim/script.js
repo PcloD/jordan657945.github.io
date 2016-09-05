@@ -193,8 +193,8 @@ function Particle(pos, vel, mass, color) {
 		}
 		
 		// destruction by tidal forces
-		if(this.acc.length() > 0.0005 & this.mass > 400) {
-			var piece = Math.random() * 90 + 10;
+		if(this.acc.length() > 0.0005 & this.mass > 1000) {
+			var piece = this.mass * 0.2 + this.mass * 0.1 * Math.random();
 			this.mass -= piece;
 			
 			new Particle(this.pos.sub(this.acc.normalized().mul(this.radius * 4)).add(randNormVec().mul(this.radius * 2)), this.vel, piece, this.color);
