@@ -3,7 +3,7 @@ var simspeed, iterations,
 	Dt, interval,
 	canvas, ctx,
 	particleIndex, particleNum, 
-	particles = {}, particle_count,
+	particles = [], particle_count,
 	gravConstant, gravVec = vec2(0, 0),
 	mousePos = vec2(0, 0), mouseDown = 0, mouseDown2 = 0,
 	shoot_vec = vec2(0, 0), mousePos_final = vec2(0, 0), mousePos_initial = vec2(0, 0),
@@ -14,11 +14,11 @@ var simspeed, iterations,
 	iterations = 144;
 	
 	
-	particle_count = 50;
+	particle_count = 0;
 	gravConstant = 0.001;
 	
-	Dt = 1000/iterations;
-	interval = 1000/(iterations * simspeed);
+	Dt = 1000 / iterations;
+	interval = 1000 / (iterations * simspeed);
 	
 	scale = 1;
 				
@@ -38,7 +38,7 @@ function vector2(x, y) {
 	// pass in as many vectors as you want and it returns the sum
 	// example: pos = pos.add(vel);
 	this.add = function() {
-		var temp = vec2(this.x, this.y)
+		var temp = vec2(this.x, this.y);
 				
 		for(var i = 0; i < arguments.length; i++) {
 			temp.x += arguments[i].x;
@@ -50,7 +50,7 @@ function vector2(x, y) {
 				
 	// same as above
 	this.sub = function() {
-		var temp = vec2(this.x, this.y)
+		var temp = vec2(this.x, this.y);
 				
 		for(var i = 0; i < arguments.length; i++) {
 			temp.x -= arguments[i].x;
@@ -64,7 +64,7 @@ function vector2(x, y) {
 	// example: vec2(5, 5).mul(vec2(2, 10)) will be a vector of (10, 50)
 	// example: vec2(5, 5).mul(3) will be a vector of (15, 15)
 	this.mul = function() {
-		var temp = vec2(this.x, this.y)
+		var temp = vec2(this.x, this.y);
 			
 		// if you intend to multiply by a scalar
 		if(arguments[0].x == undefined) {
@@ -83,7 +83,7 @@ function vector2(x, y) {
 				
 	// same as above but with div
 	this.div = function() {
-		var temp = vec2(this.x, this.y)
+		var temp = vec2(this.x, this.y);
 			
 		// if you intend to multiply by a scalar
 		if(arguments[0].x == undefined) {
@@ -98,10 +98,14 @@ function vector2(x, y) {
 					
 		return temp;
 	};
-				
-	this.vecToString = function() {
-		return ("x: " + this.x + " y: " + this.y);
-	};
+	
+	this.scrnToWorld = function() {
+		return new vec2( (((this.x) - canvas.width / 2) / scale) + canvas.width / 2, -(((-(this.y) + canvas.height / 2) / scale) - canvas.height / 2) ).sub(viewOffset);
+	}
+	
+	this.worldToScrn = function() {
+		return new vec2(((this.x + viewOffset.x) - canvas.width / 2) * scale + canvas.width / 2, -(((-(this.y + viewOffset.y) + canvas.height / 2) * scale) - canvas.height / 2));
+	}
 }
 
 // this is the easiest thing to call instead of going "new vector2(...)" all the time
@@ -112,6 +116,10 @@ function vec2(x, y) {
 // randvec - returns a random vector between the min and max vector
 function randvec(min, max) {
 	return vec2(min.x + Math.random() * (max.x - min.x), min.y + Math.random() * (max.y - min.y));
+}
+
+function randNormVec() {
+	return vec2(Math.random() * 2 - 1, Math.random() * 2 - 1);
 }
 // end of 2D vec functions------------------------------------------------
 			
@@ -127,15 +135,15 @@ function resize_canvas() {
 				
 	render();
 }
-			
+
 // gives a value a min and max
 function clamp(num, min, max) {
 	return Math.min(Math.max(min, num), max)
 }
 
 // get random integer between min and max
-function getRandomIntInclusive(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+function randomInclusive(min, max) {
+	return (Math.random() * (max - min + 1)) + min;
 }
 			
 // particle creation
@@ -151,7 +159,7 @@ function Particle(pos, vel, mass, color) {
 		// interaction with particles
 		gravVec = vec2(0, 0); // zero the accumulated vectors
 					
-		for (var i in particles) {	
+		for (var i in particles) {
 					
 			if(particles[i] != this){
 				var dist = this.pos.sub(particles[i].pos).length();
@@ -173,29 +181,41 @@ function Particle(pos, vel, mass, color) {
 			this.vel = this.vel.add(this.acc.mul(Dt));
 			this.pos = this.pos.add(this.vel.mul(Dt));
 		}
-					
-		this.radius = Math.sqrt(this.mass / Math.PI);
+				
+		// black hole formation
+		if(this.mass < 1000000) {
+			this.radius = Math.sqrt(this.mass / Math.PI);
+		} else if(this.radius > 100) {
+			this.radius = this.radius - 5;
+		} else {
+			this.radius = 100;
+			this.color = "rgb(0, 0, 0)";
+		}
+		
+		// destruction by tidal forces
+		if(this.acc.length() > 0.0005 & this.mass > 400) {
+			var piece = Math.random() * 90 + 10;
+			this.mass -= piece;
+			
+			new Particle(this.pos.sub(this.acc.normalized().mul(this.radius * 4)).add(randNormVec().mul(this.radius * 2)), this.vel, piece, this.color);
+		
+			particle_count++;
+		}
 					
 		if(this.mass == 0) {
 			delete particles[this.id];
-			particle_count -= 1;
+			particle_count--;
 		}
 	};
 				
 	// drawing function
 	this.draw = function() {
-		//ctx.translate(viewOffset.x, viewOffset.y);
-		
-		// calculate position on screen given world position
-		var renderX = ((this.pos.x + viewOffset.x) - canvas.width / 2) * scale + canvas.width / 2,
-			renderY = -(((-(this.pos.y + viewOffset.y) + canvas.height / 2) * scale) - canvas.height / 2);
 		
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
-		ctx.arc(renderX, renderY, this.radius * scale, 0, Math.PI * 2, false); // avoid floating point coords
+		ctx.arc(this.pos.worldToScrn().x, this.pos.worldToScrn().y, this.radius * scale, 0, Math.PI * 2, false); // avoid floating point coords
 		ctx.fill();
-		
-		//ctx.translate(-viewOffset.x, -viewOffset.y);
+
 	};
 					
 	particleIndex++;
@@ -275,20 +295,17 @@ function clicking(event) {
 }
 function clicked(event) {
 	if(event.button == 0) { // LMB		
+		particle_count++;
 	
 		var pos, vel, mass, color;
 		
 		pause = 0;
 		mouseDown = 0;
-		particle_count += 1;
 		
 		mousePos_final = mousePos;
 		shoot_vec = (mousePos_final.sub(mousePos_initial)).mul(-0.002 / scale);
 					
-		// sorry about this mess below (lots of calculation to convert the mousePos to a world position) (doubt it can be simplified)
-		pos = vec2( (((mousePos_initial.x) - canvas.width / 2) / scale) + canvas.width / 2,
-			-(((-(mousePos_initial.y) + canvas.height / 2) / scale) - canvas.height / 2) ).sub(viewOffset);
-		
+		pos = mousePos_initial.scrnToWorld();
 		vel = shoot_vec;
 		mass = parseInt(document.getElementById("input_mass").value);
 		color = "rgb(255, 255, 255)";
@@ -318,18 +335,11 @@ function runSim() {
 function render() {
 	// bg
 	if(!trace) {
-		ctx.fillStyle = "rgba(16, 16, 40, 1)";
+		ctx.fillStyle = "rgba(16, 16, 40, 0.9)";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
 		
 	// text
-	//ctx.fillStyle = "white";
-	//ctx.font = "20px Calibri";
-	//ctx.fillText("N-Body Gravity Simulator", 5, 15);
-	//ctx.font = "15px Calibri";
-	//ctx.fillText("Click & drag left mouse button to create a particle. Click & drag right mouse button to move the view.", 5, 30);
-	//ctx.fillText("simulation speed: " + simspeed * 100 + "%, iterations/sec: " + iterations + ", particles: " + particle_count, 5, 45);
-	
 	document.getElementById("siminfo").innerHTML = "simulation speed: " + simspeed * 100 + "%, iterations/sec: " + iterations + ", particles: " + particle_count;
 	
 	for(var i in particles) {
