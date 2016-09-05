@@ -294,28 +294,37 @@ function clicking(event) {
 	trace = 0;
 }
 function clicked(event) {
-	if(event.button == 0) { // LMB		
+	if(event.button == 0) { // LMB	
+			
 		particle_count++;
-	
+			
 		var pos, vel, mass, color;
-		
+				
 		pause = 0;
 		mouseDown = 0;
-		
+			
 		mousePos_final = mousePos;
 		shoot_vec = (mousePos_final.sub(mousePos_initial)).mul(-0.002 / scale);
-					
+						
 		pos = mousePos_initial.scrnToWorld();
 		vel = shoot_vec;
 		mass = parseInt(document.getElementById("input_mass").value);
 		color = "rgb(255, 255, 255)";
-					
+							
 		return new Particle(pos, vel, mass, color);
 	}
+
+
 	
 	if(event.button == 2){ // RMB
 		mouseDown2 = 0;
 		viewOffset_prev = viewOffset; // previous view offset to add to next
+		
+		for (var i in particles) {
+			if((mousePos.sub(particles[i].pos.worldToScrn())).length() < particles[i].radius) {
+				delete particles[i];
+			}
+		}
 	}
 }
 
