@@ -119,7 +119,7 @@ function randvec(min, max) {
 }
 
 function randNormVec() {
-	return vec2(Math.random() * 2 - 1, Math.random() * 2 - 1);
+	return vec2(Math.random() * 2 - 1, Math.random() * 2 - 1).normalized();
 }
 // end of 2D vec functions------------------------------------------------
 			
@@ -172,7 +172,7 @@ function Particle(pos, vel, mass, color) {
 						particles[i].mass = 0; // don't delete yet
 					}
 				}
-							
+				
 				gravVec = gravVec.add( (particles[i].pos.sub(this.pos)).mul( ((gravConstant * this.mass * particles[i].mass) / Math.pow(dist, 3) / this.mass) ) );						
 				this.acc = gravVec;
 			}
@@ -197,7 +197,7 @@ function Particle(pos, vel, mass, color) {
 			var piece = this.mass * 0.2 + this.mass * 0.1 * Math.random();
 			this.mass -= piece;
 			
-			new Particle(this.pos.sub(this.acc.normalized().mul(this.radius * 4)).add(randNormVec().mul(this.radius * 2)), this.vel, piece, this.color);
+			new Particle(this.pos.add(randNormVec().mul(this.radius + Math.random() * this.radius * 3)), this.vel, piece, this.color);
 		
 			particle_count++;
 		}
