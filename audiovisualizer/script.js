@@ -150,6 +150,8 @@ function autoSelect() {
 }
 			
 function initMp3Player() {
+	fbc_array = [];
+	
 	// audio object
 	if(audio != undefined) {
 		audio.pause();
@@ -257,6 +259,6 @@ function frameLooper() {
 		ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		
-		rot = rot + Math.random() * 10//rot + 0.2
+		rot = rot + 0.4;
 	}
 }
