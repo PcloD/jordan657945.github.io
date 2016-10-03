@@ -28,6 +28,8 @@ function initPage() {
 
 	resize_canvas();
 	document.getElementById("artwork").style.opacity = 0;
+	
+	frameLooper();
 }
 
 function resize_canvas() {
@@ -44,11 +46,6 @@ function resize_canvas() {
 	bg.addColorStop(1, "rgb(102, 102, 255)");
 	ctx.fillStyle = bg;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	
-	ctx.fillStyle = "rgb(255, 255, 255)";
-	ctx.beginPath();
-	ctx.arc(canvas.width * 0.5, canvas.height * 0.5, 25, 0, Math.PI * 2, false);
-	ctx.fill();
 }
 
 (function() {
@@ -171,7 +168,6 @@ function initMp3Player() {
 	source = context.createMediaElementSource(audio);
 	source.connect(analyser);
 	analyser.connect(context.destination);
-	frameLooper();
 	
 	pause = 0;
 	audio.play();
