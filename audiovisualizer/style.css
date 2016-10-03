@@ -34,15 +34,15 @@ body{
 #title {
 	color: white;	
 	position: absolute;
-	bottom: 0%;
-	left: 0%;
+	bottom: -10px;
+	left: 10px;
 }
 
 #instruction {
 	color: white;
 	position: absolute;
-	bottom: 65px;
-	left: 0%;
+	bottom: 55px;
+	left: 10px;
 }
 
 #image {
@@ -53,8 +53,9 @@ body{
 
 #soundcloud {
 	position: absolute;
-	bottom: 50px;
-	left: 310px;
+	bottom: 40px;
+	left: 320px;
+	z-index: 2;
 }
 
 #artisttitle {
@@ -76,23 +77,23 @@ body{
 #URLbox {
 	z-index: 2;
 	position: absolute;
-	bottom: 55px; 
-	left: 0px; 
+	bottom: 45px; 
+	left: 10px; 
 	width: 300px;
 }
 
 #button_play {
 	z-index: 2;
 	position: absolute;
-	bottom: 110px;
-	left: 0px;
+	bottom: 100px;
+	left: 10px;
 }
 
 #button_pause {
 	z-index: 2;
 	position: absolute;
-	bottom: 110px;
-	left: 50px;
+	bottom: 100px;
+	left: 60px;
 }
 
 #homelink {

@@ -209,8 +209,8 @@ function frameLooper() {
 	for (var i = 0; i < bars; i++) {
 		rads = Math.PI * 2 / bars;
 						
-		bar_x = center_x + Math.cos(rads * i + rot) * radius;
-		bar_y = center_y + Math.sin(rads * i + rot) * radius;
+		bar_x = center_x; //+ Math.cos(rads * i + rot);
+		bar_y = center_y; //+ Math.sin(rads * i + rot);
 				
 		bar_width = 4;
 		bar_height = Math.min(99999, Math.max((fbc_array[i] * 2.5 - 200), 0));
@@ -235,12 +235,12 @@ function frameLooper() {
 	center_y = canvas.height / 2 - (react_y * 0.01);
 				
 	radius_old = radius;
-	radius =  15 + (intensity * 0.002);
+	radius =  25 + (intensity * 0.002);
 	deltarad = radius - radius_old;
 				
 	ctx.fillStyle = "rgb(255, 255, 255)";
 	ctx.beginPath();
-	ctx.arc(center_x, center_y, radius + 10, 0, Math.PI * 2, false);
+	ctx.arc(center_x, center_y, radius + 1, 0, Math.PI * 2, false);
 	ctx.fill();
 	
 	// shockwave effect			
