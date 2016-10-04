@@ -208,7 +208,7 @@ function frameLooper() {
 		bar_x = center_x; //+ Math.cos(rads * i + rot);
 		bar_y = center_y; //+ Math.sin(rads * i + rot);
 				
-		bar_width = 4;
+		bar_width = 5;
 		bar_height = Math.min(99999, Math.max((fbc_array[i] * 2.5 - 200), 0));
 						
 		bar_x_term = center_x + Math.cos(rads * i + rot) * (radius + bar_height);
@@ -249,7 +249,7 @@ function frameLooper() {
 	ctx.stroke();
 				
 				
-	if (deltarad > 10) {
+	if (deltarad > 15) {
 		shockwave = 0;
 		
 		ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
