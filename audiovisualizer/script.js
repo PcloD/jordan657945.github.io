@@ -158,7 +158,7 @@ function initMp3Player() {
 	audio = new Audio();
 	audio.src = inputURL;
 	audio.crossOrigin = "anonymous";
-	audio.controls = false;
+	audio.controls = true;
 	audio.loop = false;
 	audio.autoplay = false;
 	
@@ -249,10 +249,10 @@ function frameLooper() {
 	ctx.stroke();
 				
 				
-	if (deltarad > 15) {
+	if (deltarad > 10) {
 		shockwave = 0;
 		
-		ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+		ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		
 		rot = rot + 0.4;
