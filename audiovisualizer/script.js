@@ -29,6 +29,19 @@ function initPage() {
 	resize_canvas();
 	document.getElementById("artwork").style.opacity = 0;
 	
+	audio = new Audio();
+	audio.crossOrigin = "anonymous";
+	audio.controls = true;
+	audio.loop = false;
+	audio.autoplay = false;
+	
+	context = new AudioContext();
+	analyser = context.createAnalyser();
+	// route audio playback
+	source = context.createMediaElementSource(audio);
+	source.connect(analyser);
+	analyser.connect(context.destination);
+	
 	frameLooper();
 }
 
@@ -147,27 +160,8 @@ function autoSelect() {
 }
 			
 function initMp3Player() {
-	fbc_array = [];
-	
-	// audio object
-	if(audio != undefined) {
-		audio.pause();
-		audio = undefined;
-	}
-	
-	audio = new Audio();
+
 	audio.src = inputURL;
-	audio.crossOrigin = "anonymous";
-	audio.controls = true;
-	audio.loop = false;
-	audio.autoplay = false;
-	
-	context = new AudioContext();
-	analyser = context.createAnalyser();
-	// route audio playback
-	source = context.createMediaElementSource(audio);
-	source.connect(analyser);
-	analyser.connect(context.destination);
 	
 	pause = 0;
 	audio.play();
