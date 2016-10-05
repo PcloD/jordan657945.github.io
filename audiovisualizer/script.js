@@ -202,8 +202,8 @@ function frameLooper() {
 		bar_x = center_x; //+ Math.cos(rads * i + rot);
 		bar_y = center_y; //+ Math.sin(rads * i + rot);
 				
-		bar_width = 5;
 		bar_height = Math.min(99999, Math.max((fbc_array[i] * 2.5 - 200), 0));
+		bar_width = bar_height * 0.02;
 						
 		bar_x_term = center_x + Math.cos(rads * i + rot) * (radius + bar_height);
 		bar_y_term = center_y + Math.sin(rads * i + rot) * (radius + bar_height);
