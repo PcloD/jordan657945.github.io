@@ -221,8 +221,8 @@ function frameLooper() {
 		intensity += bar_height;
 	}
 				
-	center_x = canvas.width / 2 - (react_x * 0.01);
-	center_y = canvas.height / 2 - (react_y * 0.01);
+	center_x = canvas.width / 2 - (react_x * 0.007);
+	center_y = canvas.height / 2 - (react_y * 0.007);
 				
 	radius_old = radius;
 	radius =  25 + (intensity * 0.002);
