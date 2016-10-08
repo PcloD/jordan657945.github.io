@@ -2,7 +2,7 @@
 var canvas, ctx, source, context, analyser, fbc_array, rads,
 center_x, center_y, radius, radius_old, deltarad, shockwave,
 bars, bar_x, bar_y, bar_x_term, bar_y_term, bar_width,
-bar_height, react_x, react_y, intensity, grd, rot, inputURL,
+bar_height, react_x, react_y, intensity, rot, inputURL,
 JSONPThing, JSONResponse, soundCloudTrackName, audio, pause,
 artist, title, img_url;
 
@@ -179,11 +179,14 @@ function initMp3Player() {
 function frameLooper() {
 	window.requestAnimationFrame(frameLooper);
 				
-	grd = ctx.createLinearGradient(0, 0, 0, canvas.height);
+	var grd = ctx.createLinearGradient(0, 0, 0, canvas.height);
 	grd.addColorStop(0, "rgba(180, 140, 230, 0.5)");
 	grd.addColorStop(1, "rgba(102, 102, 255, 0.5)");
 
 	ctx.fillStyle = grd;
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	
+	ctx.fillStyle = "rgba(255, 255, 255, " + (intensity * 0.00001 - 0.4) + ")";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 		
 	rot = rot + intensity * 0.0000001;
@@ -199,8 +202,8 @@ function frameLooper() {
 	for (var i = 0; i < bars; i++) {
 		rads = Math.PI * 2 / bars;
 						
-		bar_x = center_x; //+ Math.cos(rads * i + rot);
-		bar_y = center_y; //+ Math.sin(rads * i + rot);
+		bar_x = center_x;
+		bar_y = center_y;
 				
 		bar_height = Math.min(99999, Math.max((fbc_array[i] * 2.5 - 200), 0));
 		bar_width = bar_height * 0.02;
