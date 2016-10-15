@@ -82,7 +82,7 @@ function resize_canvas() {
 			document.getElementById("hideBody").style.opacity = 100;
             cursorVisible = true;
         }
-        mouseTimer = window.setTimeout(disappearCursor, 5000);
+        mouseTimer = window.setTimeout(disappearCursor, 3000);
     };
 })();
 
@@ -233,7 +233,7 @@ function frameLooper() {
 				
 	ctx.fillStyle = "rgb(255, 255, 255)";
 	ctx.beginPath();
-	ctx.arc(center_x, center_y, radius + 1, 0, Math.PI * 2, false);
+	ctx.arc(center_x, center_y, radius + 2, 0, Math.PI * 2, false);
 	ctx.fill();
 	
 	// shockwave effect			

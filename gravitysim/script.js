@@ -8,25 +8,19 @@ var simspeed, iterations,
 	mousePos = vec2(0, 0), mouseDown = 0, mouseDown2 = 0,
 	shoot_vec = vec2(0, 0), mousePos_final = vec2(0, 0), mousePos_initial = vec2(0, 0),
 	pause = 0, viewOffset = vec2(0, 0), viewOffset_prev = vec2(0, 0),
-	trace = 0, input_spwnmass, scale,
-	selected, particleTracked, trackVel, trackOffset, trackedID;
+	trace = 0, input_spwnmass, scale;
 	
 	simspeed = 1;
 	iterations = 144;
 	
 	
-	particle_count = 0;
+	particle_count = 50;
 	gravConstant = 0.001;
 	
 	Dt = 1000 / iterations;
 	interval = 1000 / (iterations * simspeed);
 	
 	scale = 1;
-	
-	//selected = particles[1];
-	//particleTracked = particles[1];
-	trackVel = vec2(0, 0);
-	trackOffset = vec2(0, 0);
 				
 // 2D vector functions
 function vector2(x, y) {
@@ -155,7 +149,7 @@ function clamp(num, min, max) {
 function randomInclusive(min, max) {
 	return (Math.random() * (max - min + 1)) + min;
 }
-			
+
 // particle creation
 function Particle(pos, vel, mass, color) {
 	this.pos = pos;
@@ -188,8 +182,9 @@ function Particle(pos, vel, mass, color) {
 			}
 		}
 		if(!pause){
-			this.vel = this.vel.add(this.acc.mul(Dt).sub(trackVel));
-			this.pos = this.pos.add(this.vel.mul(Dt));
+
+			this.vel = this.vel.add(this.acc.mul(Dt));
+			this.pos = this.pos.add(this.vel.mul(Dt));				
 		}
 				
 		// black hole formation
@@ -219,11 +214,6 @@ function Particle(pos, vel, mass, color) {
 			particle_count--;
 		}
 		
-		if(particleTracked) {
-			trackVel = particleTracked.vel;
-			trackOffset = particleTracked.pos;
-		}
-		
 	};
 				
 	// drawing function
@@ -247,8 +237,8 @@ function randomParticle() {
 				
 	pos = randvec(vec2(0, 0), vec2(canvas.width, canvas.height));
 	vel = vec2(0, 0);// randvec(vec2(-0.02, -0.02), vec2(0.02, 0.02));
-	mass = 20 + Math.random() * 100
-	color = "rgb(255, 255, 255)";
+	mass = 1 + Math.random() * 20
+	color = "hsl(" + (Math.random() * 360) + ", 100%, 50%)";
 				
 	return new Particle(pos, vel, mass, color);
 }
@@ -326,9 +316,9 @@ function clicked(event) {
 		shoot_vec = (mousePos_final.sub(mousePos_initial)).mul(-0.002 / scale);
 						
 		pos = mousePos_initial.scrnToWorld();
-		vel = shoot_vec.add(trackVel);
+		vel = shoot_vec;
 		mass = parseInt(document.getElementById("input_mass").value);
-		color = "rgb(255, 255, 255)";
+		color = "hsl(" + (Math.random() * 360) + ", 100%, 50%)";
 							
 		return new Particle(pos, vel, mass, color);
 	}
@@ -336,32 +326,12 @@ function clicked(event) {
 	if(event.button == 2){ // RMB
 		mouseDown2 = 0;
 		viewOffset_prev = viewOffset; // previous view offset to add to next
-		
-		for (var i in particles) {
-			if(mousePos.sub(particles[i].pos.worldToScrn()).length() < (particles[i].radius * scale)) { // radius / scale? idk it makes it easier to select w/o
-				selected = particles[i];
-				alert(selected.id);
-			}
-		}
 	}
 }
 
 // on-screen buttons
 function buttonTrace() {
 	trace = !trace;
-}
-
-function buttonTrack() {
-	if(particleTracked && selected.id != trackedID) {
-		particles[trackedID].vel = trackVel;
-	}
-	particleTracked = selected;
-	trackVel = particleTracked.vel;
-	trackOffset = particleTracked.pos;
-	
-	trackedID = particleTracked.id;
-	
-	particleTracked.color = "rgb(255, 0, 0)";
 }
 		
 // compute function
@@ -375,7 +345,7 @@ function runSim() {
 function render() {
 	// bg
 	if(!trace) {
-		ctx.fillStyle = "rgba(16, 16, 40, 0.9)";
+		ctx.fillStyle = "rgba(120, 120, 120, 0.8)";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
 		

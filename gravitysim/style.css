@@ -52,10 +52,3 @@ body {
 	color: rgb(255, 255, 255);
 	opacity: 0.5;
 }
-
-.button_track {
-	z-index: 2;
-	position: absolute;
-	bottom: 50%;
-	left: 0px;
-}

@@ -13,69 +13,82 @@
 	</head>
 	
 	<body onload="initPage()" onresize="resize_canvas()">
-			<canvas id="visualizer_render"></canvas>
+		<canvas id="visualizer_render"></canvas>
 			
-			<div id="image">
-				<img id="artwork" width="150" height="150">
-			</div>
-			
-			<div id="artisttitle">
-				<h1 id="artistname"></h1>
-			</div>
+		<div id="image">
+			<img id="artwork" width="150" height="150">
+		</div>
+		
+		<div id="artisttitle">
+			<h1 id="artistname"></h1>
+		</div>
 				
-			<div id="songtitle">
+		<div id="songtitle">
 				<h1 id="songname"></h1>
+		</div>
+			
+		<div id="hideBody">
+			<div id="title">
+				<h2>Canvas Audio Visualizer</h2>
+			</div>
+				
+			<div id="instruction">
+				<h4>Enter your SoundCloud Track URL here:</h4>
 			</div>
 			
-			<div id="hideBody">
-				<div id="title">
-					<h2>HTML Canvas Audio Visualizer</h2>
-				</div>
-				
-				<div id="instruction">
-					<h4>Enter your SoundCloud Track URL here:</h4>
-				</div>
-			
-				<div id="URLbox">
-					<input 
-						id="input_URL" 
-						type="textbox"
-						class="textbox"
-						name="URL"
-						type="text" 
-						value="https://soundcloud.com/user/trackname"
-						style="width: 300px;"
-						onclick="autoSelect()"
-					/>		
-				</div>
-			
-				<div id="button_play">
-					<button 
-						type="button"
-						class="button"
-						onclick="handleButton()" 
-					>Play</button>
-				</div>
-					
-				<div id="button_pause">
-					<button
-						type="button"
-						class="button"
-						onclick="togglepause()"
-					>Pause</button>
-				</div>
-				
-				<div id="homelink">
-					<a class="link" href="https://jordan657945.github.io/">jordan657945.github.io</a>	
-				</div>
-				
-				<div id="credit">
-					<p> Thanks to
-						<a class="link" href="https://twitter.com/chaquator">@chaquator</a>	
-						for help with the SoundCloud API
-					</p>
-				</div>
+			<div id="URLbox">
+				<input 
+					id="input_URL" 
+					type="textbox"
+					class="textbox"
+					name="URL"
+					type="text" 
+					value="https://soundcloud.com/user/trackname"
+					style="width: 300px;"
+					onclick="autoSelect()"
+				/>		
 			</div>
+			
+			<div id="button_play">
+				<button 
+					type="button"
+					class="button"
+					onclick="handleButton()" 
+				>Play</button>
+			</div>
+				
+			<div id="button_pause">
+				<button
+					type="button"
+					class="button"
+					onclick="togglepause()"
+				>Pause</button>
+			</div>
+			
+			<div id="homelink">
+				<a class="link" href="https://jordan657945.github.io/">jordan657945.github.io</a>	
+			</div>
+			
+			<div id="credit">
+				<p> Thanks to
+					<a class="link" href="https://twitter.com/chaquator">@chaquator</a>	
+					for help with the SoundCloud API
+				</p>
+			</div>
+		</div>
+			
+		<!-- options menu -->
+		<div id="mySidenav" class="sidenav">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<a href="#">About</a>
+			<a href="#">Services</a>
+			<a href="#">Clients</a>
+			<a href="#">Contact</a>
+		</div>
+		
+		<h2>Sidenav Example</h2>
+		<p>Click on the element below to open the side navigation menu.</p>
+		<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
 	</body>
 	
 </html>
