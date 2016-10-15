@@ -9,16 +9,14 @@ var simspeed, iterations,
 	shoot_vec = vec2(0, 0), mousePos_final = vec2(0, 0), mousePos_initial = vec2(0, 0),
 	pause = 0, viewOffset = vec2(0, 0), viewOffset_prev = vec2(0, 0),
 	trace = 0, input_spwnmass, scale;
-	
-	simspeed = 1;
+
 	iterations = 144;
-	
+	simspeed = 144 / iterations;
+	Dt = 1000 / iterations;
+	interval = 1000 / 144; // 144Hz
 	
 	particle_count = 50;
 	gravConstant = 0.001;
-	
-	Dt = 1000 / iterations;
-	interval = 1000 / (iterations * simspeed);
 	
 	scale = 1;
 				
@@ -221,7 +219,7 @@ function Particle(pos, vel, mass, color) {
 		
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
-		ctx.arc(this.pos.worldToScrn().x, this.pos.worldToScrn().y, this.radius * scale, 0, Math.PI * 2, false);
+		ctx.arc(this.pos.worldToScrn().x, this.pos.worldToScrn().y, Math.max(this.radius * scale, 1), 0, Math.PI * 2, false);
 		
 		ctx.fill();
 
@@ -345,7 +343,7 @@ function runSim() {
 function render() {
 	// bg
 	if(!trace) {
-		ctx.fillStyle = "rgba(120, 120, 120, 0.8)";
+		ctx.fillStyle = "rgba(60, 60, 60, 0.8)";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
 		
