@@ -217,11 +217,18 @@ function Particle(pos, vel, mass, color) {
 	// drawing function
 	this.draw = function() {
 		
+		ctx.save();
+		
+		ctx.shadowColor = this.color;
+		ctx.shadowBlur = 10;
+		
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
 		ctx.arc(this.pos.worldToScrn().x, this.pos.worldToScrn().y, Math.max(this.radius * scale, 1), 0, Math.PI * 2, false);
 		
 		ctx.fill();
+		
+		ctx.restore();
 
 	};
 					
@@ -343,7 +350,7 @@ function runSim() {
 function render() {
 	// bg
 	if(!trace) {
-		ctx.fillStyle = "rgba(60, 60, 60, 0.8)";
+		ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
 		
