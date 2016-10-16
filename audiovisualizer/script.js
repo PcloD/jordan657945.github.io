@@ -211,12 +211,21 @@ function frameLooper() {
 		bar_x_term = center_x + Math.cos(rads * i + rot) * (radius + bar_height);
 		bar_y_term = center_y + Math.sin(rads * i + rot) * (radius + bar_height);
 						
-		ctx.strokeStyle = "rgb(" + (fbc_array[i]).toString() + ", " + 255 + ", " + 255 + ")";
+		ctx.save();
+					
+		var lineColor = "rgb(" + (fbc_array[i]).toString() + ", " + 255 + ", " + 255 + ")";
+		
+		ctx.shadowColor = lineColor;
+		ctx.shadowBlur = 20;
+						
+		ctx.strokeStyle = lineColor;
 		ctx.lineWidth = bar_width;
 		ctx.beginPath();
 		ctx.moveTo(bar_x, bar_y);
 		ctx.lineTo(bar_x_term, bar_y_term);
 		ctx.stroke();
+		
+		ctx.restore();
 					
 		react_x += Math.cos(rads * i + rot) * (radius + bar_height);
 		react_y += Math.sin(rads * i + rot) * (radius + bar_height);
