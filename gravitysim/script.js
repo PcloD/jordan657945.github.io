@@ -8,17 +8,21 @@ var simspeed, iterations,
 	mousePos = vec2(0, 0), mouseDown = 0, mouseDown2 = 0,
 	shoot_vec = vec2(0, 0), mousePos_final = vec2(0, 0), mousePos_initial = vec2(0, 0),
 	pause = 0, viewOffset = vec2(0, 0), viewOffset_prev = vec2(0, 0),
-	trace = 0, input_spwnmass, scale;
+	trace = 0, input_spwnmass, scale,
+	spawnData;
 
 	iterations = 144;
 	simspeed = 144 / iterations;
 	Dt = 1000 / iterations;
 	interval = 1000 / 144; // 144Hz
 	
-	particle_count = 50;
+	particle_count = 0;
 	gravConstant = 0.001;
 	
 	scale = 1;
+	
+	//earth = 100 mass, distance / 1500 (mi)
+	spawnData = "0 0,0 0,33305400,#ffefbf;24000 0,0 -1.178,6,#c1c1c1;44827 0,0 -0.862,82,#e8c766;61973 0,0 -0.733,100,#266aff;94400 0,0 -0.594,11,#f49d55;322533 0,0 -0.321,31800,#d8ca9d";
 				
 // 2D vector functions
 function vector2(x, y) {
@@ -175,18 +179,19 @@ function Particle(pos, vel, mass, color) {
 					}
 				}
 				
-				gravVec = gravVec.add( (particles[i].pos.sub(this.pos)).mul( ((gravConstant * this.mass * particles[i].mass) / Math.pow(dist, 3) / this.mass) ) );						
+				gravVec = gravVec.add((particles[i].pos.sub(this.pos)).mul((gravConstant * particles[i].mass) / Math.pow(dist, 3)));						
 				this.acc = gravVec;
 			}
 		}
+		
 		if(!pause){
-
+			
 			this.vel = this.vel.add(this.acc.mul(Dt));
 			this.pos = this.pos.add(this.vel.mul(Dt));				
 		}
 				
 		// black hole formation
-		if(this.mass < 10000000) {
+		if(this.mass < 1000000000) {
 			this.radius = Math.sqrt(this.mass / Math.PI);
 		} else if(this.radius > 100) {
 			this.radius = this.radius - 5;
@@ -247,7 +252,24 @@ function randomParticle() {
 				
 	return new Particle(pos, vel, mass, color);
 }
-			
+
+function stringToParticle(str) {
+    var arr = str.split(",")
+    var pos = arr[0].split(" ");
+    var vel = arr[1].split(" ");
+    return new Particle(vec2(parseFloat(pos[0]), parseFloat(pos[1])), vec2(parseFloat(vel[0]), parseFloat(vel[1])), parseFloat(arr[2]), arr[3]);
+}
+
+function bigStringToParticles(str) {
+    var arr = [];
+    str.split(";").forEach(function(element)
+    {
+        arr.push(stringToParticle(element));
+    });
+   
+    return arr;
+}
+
 // run particle
 particleNum = particle_count;
 particleIndex = 0;
@@ -269,10 +291,14 @@ function main() {
 	window.addEventListener("resize", resize_canvas, false);
 				
 	// set up particles
-	for (var i = 0; i < particleNum; i++) {
+	/*for (var i = 0; i < particleNum; i++) {
 		randomParticle();
-	}
-				
+	}*/
+	
+	// manual system creation
+
+	bigStringToParticles(spawnData);
+	
 	// draw
 	(function animLoop() {
 		requestAnimationFrame(animLoop);
