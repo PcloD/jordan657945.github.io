@@ -215,8 +215,8 @@ function frameLooper() {
 					
 		var lineColor = "rgb(" + (fbc_array[i]).toString() + ", " + 255 + ", " + 255 + ")";
 		
-		ctx.shadowColor = lineColor;
-		ctx.shadowBlur = 20;
+		//ctx.shadowColor = lineColor;
+		//ctx.shadowBlur = 20;
 						
 		ctx.strokeStyle = lineColor;
 		ctx.lineWidth = bar_width;
@@ -225,7 +225,7 @@ function frameLooper() {
 		ctx.lineTo(bar_x_term, bar_y_term);
 		ctx.stroke();
 		
-		ctx.restore();
+		//ctx.restore();
 					
 		react_x += Math.cos(rads * i + rot) * (radius + bar_height);
 		react_y += Math.sin(rads * i + rot) * (radius + bar_height);
