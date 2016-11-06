@@ -301,6 +301,8 @@ function main() {
 	// manual system creation
 	viewOffset = vec2(canvas.width / 2, canvas.height / 2);
 	viewOffset_prev = vec2(canvas.width / 2, canvas.height / 2);
+	particle_count = 9;
+	
 	bigStringToParticles(spawnData);
 	
 	// draw
