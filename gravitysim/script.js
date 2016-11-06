@@ -19,11 +19,14 @@ var simspeed, iterations,
 	particle_count = 0;
 	gravConstant = 0.001;
 	
-	scale = 0.05;
+	scale = 0.5;
 	
 	//earth = 100 mass, distance / 1500 (mi)
-	spawnData = "0 0,0 0,33305400,#ffefbf;24000 0,0 -1.178,6,#c1c1c1;44827 0,0 -0.862,82,#e8c766;61973 0,0 -0.733,100,#266aff;94400 0,0 -0.594,11,#f49d55;322533 0,0 -0.321,31800,#d8ca9d;592133 0,0 -0.237,9500,#e8e892;1189333 0,0 -0.167,1500,#bffffc;1863333 0,0 -0.134,1715,#5694ff";
-				
+	//spawnData = "0 0,0 0,33305400,#ffefbf;24000 0,0 -1.178,6,#c1c1c1;44827 0,0 -0.862,82,#e8c766;61973 0,0 -0.733,100,#266aff;94400 0,0 -0.594,11,#f49d55;322533 0,0 -0.321,31800,#d8ca9d;592133 0,0 -0.237,9500,#e8e892;1189333 0,0 -0.167,1500,#bffffc;1863333 0,0 -0.134,1715,#5694ff";
+	//spawnData = "0 100,0.025 0,300,#FFFFFF;0 -100,-0.025 0,300,#FFFFFF;0 1000,-0.024 0,50,#FFFFFF";
+	spawnData = "0 0,0 0,10000,#FFFFFF;500 0,0 0.1414,100,#ff0000;-500 0,0 -0.1414,100,#00FFFF;0 500,-0.1414 0,100,#7FFF00;0 -500,0.1414 0,100,#7F00FF;353.55 353.55,-0.1 0.1,100,#FFBF00;-353.55 -353.55,0.1 -0.1,100,#003FFF;353.55 -353.55,0.1 0.1,100,#FF00BF;-353.55 353.55,-0.1 -0.1,100,#00FF3F"
+	//spawnData = "0 0,-0.012 0,500,#FFFFFF;0 -100,0.06 0,100,#FFFFFF";
+	
 // 2D vector functions
 function vector2(x, y) {
 	this.x = x;
@@ -296,7 +299,8 @@ function main() {
 	}*/
 	
 	// manual system creation
-
+	viewOffset = vec2(canvas.width / 2, canvas.height / 2);
+	viewOffset_prev = vec2(canvas.width / 2, canvas.height / 2);
 	bigStringToParticles(spawnData);
 	
 	// draw
