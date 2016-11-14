@@ -6,10 +6,24 @@ body {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
-.button {
+.trace_button {
 	z-index: 2;
 	position: absolute;
 	bottom: 0px;
+	left: 0px;
+}
+
+.reset_button {
+	z-index: 2;
+	position: absolute;
+	bottom: 30px;
+	left: 0px;
+}
+
+.clear_button {
+	z-index: 2;
+	position: absolute;
+	bottom: 60px;
 	left: 0px;
 }
 

@@ -263,7 +263,7 @@ function stringToParticle(str) {
     return new Particle(vec2(parseFloat(pos[0]), parseFloat(pos[1])), vec2(parseFloat(vel[0]), parseFloat(vel[1])), parseFloat(arr[2]), arr[3]);
 }
 
-function bigStringToParticles(str) {
+function createWorld(str) {
     var arr = [];
     str.split(";").forEach(function(element)
     {
@@ -303,7 +303,7 @@ function main() {
 	viewOffset_prev = vec2(canvas.width / 2, canvas.height / 2);
 	particle_count = 9;
 	
-	bigStringToParticles(spawnData);
+	createWorld(spawnData);
 	
 	// draw
 	(function animLoop() {
@@ -313,6 +313,21 @@ function main() {
 				
 	// compute
 	setInterval(runSim, interval); // ~144Hz, 1000 / 144
+}
+
+function reset() {
+	for (var i in particles) {
+		delete particles[i];
+	}
+	createWorld(spawnData);
+	particle_count = 0;
+}
+
+function clear_world() {
+	for (var i in particles) {
+		delete particles[i];
+	}
+	particle_count = 0;
 }
 			
 // mouse controls	
