@@ -16,28 +16,28 @@ body {
 .reset_button {
 	z-index: 2;
 	position: absolute;
-	bottom: 30px;
+	bottom: 22px;
 	left: 0px;
 }
 
 .clear_button {
 	z-index: 2;
 	position: absolute;
-	bottom: 60px;
-	left: 0px;
+	bottom: 22px;
+	left: 50px;
 }
 
 .nextworld_button {
 	z-index: 2;
 	position: absolute;
-	bottom: 90px;
-	left: 100px;
+	bottom: 44px;
+	left: 55px;
 }
 
 .prevworld_button {
 	z-index: 2;
 	position: absolute;
-	bottom: 90px;
+	bottom: 44px;
 	left: 0px;
 }
 
