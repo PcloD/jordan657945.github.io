@@ -1,31 +1,28 @@
 // establish vars
-var simspeed, iterations,
-	Dt, interval,
+var simspeed, iterations, Dt, interval, 
 	canvas, ctx,
-	particleIndex, particleNum, 
-	particles = [], particle_count,
-	gravConstant, gravVec = vec2(0, 0),
-	mousePos = vec2(0, 0), mouseDown = 0, mouseDown2 = 0,
-	shoot_vec = vec2(0, 0), mousePos_final = vec2(0, 0), mousePos_initial = vec2(0, 0),
-	pause = 0, viewOffset = vec2(0, 0), viewOffset_prev = vec2(0, 0),
-	trace = 0, input_spwnmass, scale,
-	spawnData;
+	particleIndex = 0, particle_count, particles = [],
+	gravConstant, gravVec = vec2(0, 0), 
+	mousePos = vec2(0, 0), mouseDown = 0, mouseDown2 = 0, shoot_vec = vec2(0, 0), mousePos_final = vec2(0, 0), mousePos_initial = vec2(0, 0),
+	viewOffset = vec2(0, 0), viewOffset_prev = vec2(0, 0),
+	trace = 0, pause = 0, scale,
+	input_spwnmass, 
+	spawnData = [], worldIndex = 0;
 
 	iterations = 144;
 	simspeed = 144 / iterations;
 	Dt = 1000 / iterations;
 	interval = 1000 / 144; // 144Hz
 	
-	particle_count = 0;
 	gravConstant = 0.001;
 	
-	scale = 0.5;
+	scale = 1;
 	
-	//earth = 100 mass, distance / 1500 (mi)
-	//spawnData = "0 0,0 0,33305400,#ffefbf;24000 0,0 -1.178,6,#c1c1c1;44827 0,0 -0.862,82,#e8c766;61973 0,0 -0.733,100,#266aff;94400 0,0 -0.594,11,#f49d55;322533 0,0 -0.321,31800,#d8ca9d;592133 0,0 -0.237,9500,#e8e892;1189333 0,0 -0.167,1500,#bffffc;1863333 0,0 -0.134,1715,#5694ff";
-	//spawnData = "0 100,0.025 0,300,#FFFFFF;0 -100,-0.025 0,300,#FFFFFF;0 1000,-0.024 0,50,#FFFFFF";
-	spawnData = "0 0,0 0,10000,#FFFFFF;500 0,0 0.1414,100,#ff0000;-500 0,0 -0.1414,100,#00FFFF;0 500,-0.1414 0,100,#7FFF00;0 -500,0.1414 0,100,#7F00FF;353.55 353.55,-0.1 0.1,100,#FFBF00;-353.55 -353.55,0.1 -0.1,100,#003FFF;353.55 -353.55,0.1 0.1,100,#FF00BF;-353.55 353.55,-0.1 -0.1,100,#00FF3F"
-	//spawnData = "0 0,-0.012 0,500,#FFFFFF;0 -100,0.06 0,100,#FFFFFF";
+	//spawnData = ["0 : 0, 0 : 0, 10000, #FFFFFF; 500 : 0, 0 : 0.1414, 100, #ff0000; -500 : 0, 0 : -0.1414, 100, #00FFFF; 0 : 500, -0.1414 : 0, 100, #7FFF00; 0 : -500, 0.1414 : 0, 100, #7F00FF; 353.55 : 353.55, -0.1 : 0.1, 100, #FFBF00; -353.55 : -353.55, 0.1 : -0.1, 100, #003FFF; 353.55 : -353.55, 0.1 : 0.1, 100, #FF00BF; -353.55 : 353.55, -0.1 : -0.1, 100, #00FF3F",
+	//	"0 : 0, 0 : 0, 10000, #FFFFFF"];
+	
+	spawnData = ["0 : 0, 0 : 0, 2500, #FFFFFF; Math.cos((Math.PI * 2 / 12) * 1) * 300 : Math.sin((Math.PI * 2 / 12) * 1) * 300, Math.cos((Math.PI * 2 / 12 + Math.PI / 2) * 1) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12 + Math.PI / 2) * 1) * Math.sqrt((gravConstant * 2500) / 300), 100, #f00; Math.cos((Math.PI * 2 / 12) * 2) * 300 : Math.sin((Math.PI * 2 / 12) * 2) * 300, Math.cos((Math.PI * 2 / 12) * 2 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 2 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #ff8000; Math.cos((Math.PI * 2 / 12) * 3) * 300 : Math.sin((Math.PI * 2 / 12) * 3) * 300, Math.cos((Math.PI * 2 / 12) * 3 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 3 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #ff0; Math.cos((Math.PI * 2 / 12) * 4) * 300 : Math.sin((Math.PI * 2 / 12) * 4) * 300, Math.cos((Math.PI * 2 / 12) * 4 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 4 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #80ff00; Math.cos((Math.PI * 2 / 12) * 5) * 300 : Math.sin((Math.PI * 2 / 12) * 5) * 300, Math.cos((Math.PI * 2 / 12) * 5 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 5 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #0f0; Math.cos((Math.PI * 2 / 12) * 6) * 300 : Math.sin((Math.PI * 2 / 12) * 6) * 300, Math.cos((Math.PI * 2 / 12) * 6 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 6 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #00ff80; Math.cos((Math.PI * 2 / 12) * 7) * 300 : Math.sin((Math.PI * 2 / 12) * 7) * 300, Math.cos((Math.PI * 2 / 12) * 7 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 7 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #0ff; Math.cos((Math.PI * 2 / 12) * 8) * 300 : Math.sin((Math.PI * 2 / 12) * 8) * 300, Math.cos((Math.PI * 2 / 12) * 8 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 8 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #007fff; Math.cos((Math.PI * 2 / 12) * 9) * 300 : Math.sin((Math.PI * 2 / 12) * 9) * 300, Math.cos((Math.PI * 2 / 12) * 9 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 9 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #00f; Math.cos((Math.PI * 2 / 12) * 10) * 300 : Math.sin((Math.PI * 2 / 12) * 10) * 300, Math.cos((Math.PI * 2 / 12) * 10 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 10 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #7f00ff; Math.cos((Math.PI * 2 / 12) * 11) * 300 : Math.sin((Math.PI * 2 / 12) * 11) * 300, Math.cos((Math.PI * 2 / 12) * 11 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 11 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #f0f; Math.cos((Math.PI * 2 / 12) * 12) * 300 : Math.sin((Math.PI * 2 / 12) * 12) * 300, Math.cos((Math.PI * 2 / 12) * 12 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 12 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #ff0080"];
+	
 	
 // 2D vector functions
 function vector2(x, y) {
@@ -225,18 +222,12 @@ function Particle(pos, vel, mass, color) {
 	// drawing function
 	this.draw = function() {
 		
-		ctx.save();
-		
-		ctx.shadowColor = this.color;
-		ctx.shadowBlur = 10;
-		
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
 		ctx.arc(this.pos.worldToScrn().x, this.pos.worldToScrn().y, Math.max(this.radius * scale, 1), 0, Math.PI * 2, false);
 		
 		ctx.fill();
 		
-		ctx.restore();
 
 	};
 					
@@ -249,7 +240,7 @@ function randomParticle() {
 	var pos, vel, mass, color;
 				
 	pos = randvec(vec2(0, 0), vec2(canvas.width, canvas.height));
-	vel = vec2(0, 0);// randvec(vec2(-0.02, -0.02), vec2(0.02, 0.02));
+	vel = vec2(0, 0);
 	mass = 1 + Math.random() * 20
 	color = "hsl(" + (Math.random() * 360) + ", 100%, 50%)";
 				
@@ -258,24 +249,23 @@ function randomParticle() {
 
 function stringToParticle(str) {
     var arr = str.split(",")
-    var pos = arr[0].split(" ");
-    var vel = arr[1].split(" ");
-    return new Particle(vec2(parseFloat(pos[0]), parseFloat(pos[1])), vec2(parseFloat(vel[0]), parseFloat(vel[1])), parseFloat(arr[2]), arr[3]);
+    var pos = arr[0].split(":");
+    var vel = arr[1].split(":");
+
+	return new Particle(vec2(eval(pos[0]), eval(pos[1])), vec2(eval(vel[0]), eval(vel[1])), eval(arr[2]), arr[3]);
 }
 
 function createWorld(str) {
+	particle_count = 0;
+	
     var arr = [];
-    str.split(";").forEach(function(element)
-    {
+    str.split(";").forEach(function(element) {
         arr.push(stringToParticle(element));
+		particle_count++;
     });
    
     return arr;
 }
-
-// run particle
-particleNum = particle_count;
-particleIndex = 0;
 			
 function main() {
 	// set up canvas
@@ -294,16 +284,11 @@ function main() {
 	window.addEventListener("resize", resize_canvas, false);
 				
 	// set up particles
-	/*for (var i = 0; i < particleNum; i++) {
-		randomParticle();
-	}*/
-	
-	// manual system creation
 	viewOffset = vec2(canvas.width / 2, canvas.height / 2);
 	viewOffset_prev = vec2(canvas.width / 2, canvas.height / 2);
 	particle_count = 9;
 	
-	createWorld(spawnData);
+	createWorld(spawnData[0]);
 	
 	// draw
 	(function animLoop() {
@@ -315,19 +300,28 @@ function main() {
 	setInterval(runSim, interval); // ~144Hz, 1000 / 144
 }
 
-function reset() {
+function clearWorld() {
 	for (var i in particles) {
 		delete particles[i];
 	}
-	createWorld(spawnData);
+	
 	particle_count = 0;
+	trace = 0;
 }
 
-function clear_world() {
-	for (var i in particles) {
-		delete particles[i];
-	}
-	particle_count = 0;
+function reset() {
+	clearWorld();
+	createWorld(spawnData[worldIndex]);
+}
+
+function nextWorld() {
+	worldIndex++;
+	reset();
+}
+
+function prevWorld() {
+	worldIndex--;
+	reset();
 }
 			
 // mouse controls	
