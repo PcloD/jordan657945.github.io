@@ -198,18 +198,6 @@ function Particle(pos, vel, mass, color) {
 			this.color = "rgb(0, 0, 0)";
 		}
 		
-		/* DEPRECATED
-		// destruction by tidal forces
-		if((this.acc.length() > 0.0005) && (this.mass < 10000000) && (this.mass > 2000)) {
-			var piece = this.mass * 0.1 + Math.random() * this.mass * 0.1;
-			this.mass -= piece;
-			
-			new Particle(this.pos.add(randNormVec().mul(this.radius * 1.5 + this.radius * Math.random())), this.vel, piece, this.color);
-		
-			particle_count++;
-		}
-		*/
-		
 		if(this.mass == 0) {
 			delete particles[this.id];
 			particle_count--;
