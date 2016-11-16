@@ -19,7 +19,8 @@ var simspeed, iterations, Dt, interval,
 	scale = 1;
 	
 	spawnData = ["0 : 0, 0 : 0, 2500, #FFFFFF; Math.cos((Math.PI * 2 / 12) * 1) * 300 : Math.sin((Math.PI * 2 / 12) * 1) * 300, Math.cos((Math.PI * 2 / 12 + Math.PI / 2) * 1) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12 + Math.PI / 2) * 1) * Math.sqrt((gravConstant * 2500) / 300), 100, #f00; Math.cos((Math.PI * 2 / 12) * 2) * 300 : Math.sin((Math.PI * 2 / 12) * 2) * 300, Math.cos((Math.PI * 2 / 12) * 2 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 2 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #ff8000; Math.cos((Math.PI * 2 / 12) * 3) * 300 : Math.sin((Math.PI * 2 / 12) * 3) * 300, Math.cos((Math.PI * 2 / 12) * 3 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 3 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #ff0; Math.cos((Math.PI * 2 / 12) * 4) * 300 : Math.sin((Math.PI * 2 / 12) * 4) * 300, Math.cos((Math.PI * 2 / 12) * 4 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 4 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #80ff00; Math.cos((Math.PI * 2 / 12) * 5) * 300 : Math.sin((Math.PI * 2 / 12) * 5) * 300, Math.cos((Math.PI * 2 / 12) * 5 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 5 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #0f0; Math.cos((Math.PI * 2 / 12) * 6) * 300 : Math.sin((Math.PI * 2 / 12) * 6) * 300, Math.cos((Math.PI * 2 / 12) * 6 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 6 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #00ff80; Math.cos((Math.PI * 2 / 12) * 7) * 300 : Math.sin((Math.PI * 2 / 12) * 7) * 300, Math.cos((Math.PI * 2 / 12) * 7 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 7 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #0ff; Math.cos((Math.PI * 2 / 12) * 8) * 300 : Math.sin((Math.PI * 2 / 12) * 8) * 300, Math.cos((Math.PI * 2 / 12) * 8 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 8 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #007fff; Math.cos((Math.PI * 2 / 12) * 9) * 300 : Math.sin((Math.PI * 2 / 12) * 9) * 300, Math.cos((Math.PI * 2 / 12) * 9 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 9 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #00f; Math.cos((Math.PI * 2 / 12) * 10) * 300 : Math.sin((Math.PI * 2 / 12) * 10) * 300, Math.cos((Math.PI * 2 / 12) * 10 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 10 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #7f00ff; Math.cos((Math.PI * 2 / 12) * 11) * 300 : Math.sin((Math.PI * 2 / 12) * 11) * 300, Math.cos((Math.PI * 2 / 12) * 11 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 11 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #f0f; Math.cos((Math.PI * 2 / 12) * 12) * 300 : Math.sin((Math.PI * 2 / 12) * 12) * 300, Math.cos((Math.PI * 2 / 12) * 12 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300) : Math.sin((Math.PI * 2 / 12) * 12 + Math.PI / 2) * Math.sqrt((gravConstant * 2500) / 300), 100, #ff0080",
-		"0 : 0, 0 : 0, 2500, #FFFFFF;"];
+		"0 : 0, 0 : 0, 2500, #FFFFFF; 0 : -300, 0.06 : 0, 50, #FFFFFF; 0 : 300, -0.06 : 0, 50, #FFFFFF",
+		"0 : 0, 0 : 0, 2500, #FFFFFF; 0 : -100, 0.165 : 0, 25, #FFFFFF;"];
 	
 	
 // 2D vector functions
@@ -235,9 +236,10 @@ function randomParticle() {
 
 function stringToParticle(str) {
     var arr = str.split(",")
+	
     var pos = arr[0].split(":");
     var vel = arr[1].split(":");
-
+	
 	return new Particle(vec2(eval(pos[0]), eval(pos[1])), vec2(eval(vel[0]), eval(vel[1])), eval(arr[2]), arr[3]);
 }
 
