@@ -52,7 +52,7 @@ function Drop() {
 	this.x = Math.random() * canvas.width;
 	this.y = Math.random() * canvas.height;
 	this.z = random(0, 20);
-	this.yspeed = maprange(this.z, 0, 20, 10, 20);
+	this.yspeed = maprange(this.z, 0, 20, 5, 10);
 	this.length = maprange(this.z, 0, 20, 10, 20);
 	
 	this.width = maprange(this.z, 0, 20, 1, 3);
@@ -63,8 +63,8 @@ function Drop() {
 		
 		if(this.y > canvas.height) {
 			this.x = Math.random() * canvas.width;
-			this.y = 0;
-			this.yspeed = maprange(this.z, 0, 20, 10, 20);
+			this.y = random(-canvas.height, 0);
+			this.yspeed = maprange(this.z, 0, 20, 5, 10);
 		}
 	};
 	
