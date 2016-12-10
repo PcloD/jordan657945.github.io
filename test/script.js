@@ -28,6 +28,52 @@ function maprange(value, low1, high1, low2, high2) {
     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
 
+// water droplet
+function Drop() {
+	
+	// set up particle
+	//make particle off screen so it gets reset immediately
+	this.x = Math.random() * canvas.width;
+	this.y = canvas.height * 2;
+	
+	this.vx = 0;
+	this.vy = 0
+	
+	// move drop down the screen
+	this.fall = function() {
+		// integrate velocity to position
+		this.x = this.x + this.vx;
+		this.y = this.y + this.vy;
+		
+		// if the drop falls below the screen
+		if(this.y > canvas.height) {
+			// reset drop to random position above screen
+			this.x = random(-100, canvas.width);
+			this.y = random(-canvas.height, 0);
+			
+			// distance from view
+			this.z = random(0, 20);
+			
+			// velocity
+			this.vx = maprange(this.z, 0, 20, 1, 2);
+			this.vy = maprange(this.z, 0, 20, 5, 10);
+			
+			// size of drop
+			this.width = maprange(this.z, 0, 20, 1, 3);
+		}
+	};
+	
+	// draw the drop
+	this.draw = function() {
+		ctx.strokeStyle = "rgba(50, 50, 255, 0.5)";
+		ctx.lineWidth = this.width;
+		ctx.beginPath();
+		ctx.moveTo(this.x, this.y);
+		ctx.lineTo(this.x + this.vx * 2, this.y + this.vy * 2);
+		ctx.stroke();
+	};
+}
+
 // upon loading:
 function main() {
 	// set up canvas
@@ -49,38 +95,6 @@ function main() {
 	render();
 }
 
-// water droplet
-function Drop() {
-	this.x = Math.random() * canvas.width;
-	this.y = Math.random() * canvas.height;
-	this.z = random(0, 20);
-	this.yspeed = maprange(this.z, 0, 20, 5, 10);
-	this.length = maprange(this.z, 0, 20, 10, 20);
-	
-	this.width = maprange(this.z, 0, 20, 1, 3);
-	
-	// move drop down the screen
-	this.fall = function() {
-		this.y = this.y + this.yspeed;
-		
-		if(this.y > canvas.height) {
-			this.x = Math.random() * canvas.width;
-			this.y = random(-canvas.height, 0);
-			this.yspeed = maprange(this.z, 0, 20, 5, 10);
-		}
-	};
-	
-	// draw the drop
-	this.draw = function() {
-		ctx.strokeStyle = "rgba(50, 50, 255, 0.5)";
-		ctx.lineWidth = this.width;
-		ctx.beginPath();
-		ctx.moveTo(this.x, this.y);
-		ctx.lineTo(this.x, this.y + this.length);
-		ctx.stroke();
-	};
-}
-
 // render canvas
 function render() {
 	// clear canvas
@@ -94,7 +108,7 @@ function render() {
 	
 	// scroll clouds across screen
 	x += 0.5;
-	document.body.style.backgroundPosition = x + "px 0px";
+	document.body.style.backgroundPosition = x + "px -90px";
 	
 	// repeat render function
 	window.requestAnimationFrame(render);
