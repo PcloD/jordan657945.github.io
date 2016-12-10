@@ -82,7 +82,7 @@ function Drop() {
 // render canvas
 function render() {
 	// draw background
-	ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+	ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	
 	// run all the drops
