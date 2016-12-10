@@ -3,4 +3,8 @@ body {
 	padding: 0;
 	display: block;
 	overflow: hidden;
+	
+	background-color: rgb(200, 200, 200);
+	background-image: url("cloud layer 1.png");
+	background-repeat: repeat-x;
 }

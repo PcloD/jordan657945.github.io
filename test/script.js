@@ -1,9 +1,11 @@
 //initialize variables
 var canvas, ctx,
-	drops = [], drop_count;
+	drops = [], drop_count,
+	x;
 	
 // establish variables
 drop_count = 500;
+x = 0;
 
 // fits canvas to window
 function resize_canvas() {
@@ -81,9 +83,8 @@ function Drop() {
 
 // render canvas
 function render() {
-	// draw background
-	ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	// clear canvas
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
 	// run all the drops
 	for (var i in drops) {
@@ -91,5 +92,10 @@ function render() {
 		drops[i].draw();
 	}
 	
+	// scroll clouds across screen
+	x += 0.5;
+	document.body.style.backgroundPosition = x + "px 0px";
+	
+	// repeat render function
 	window.requestAnimationFrame(render);
 }
