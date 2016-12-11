@@ -65,11 +65,11 @@ function Drop() {
 	
 	// draw the drop
 	this.draw = function() {
-		ctx.strokeStyle = "rgba(50, 50, 255, 0.5)";
+		ctx.strokeStyle = "rgba(50, 50, 255, 1)";
 		ctx.lineWidth = this.width;
 		ctx.beginPath();
 		ctx.moveTo(this.x, this.y);
-		ctx.lineTo(this.x + this.vx * 2, this.y + this.vy * 2);
+		ctx.lineTo(this.x + this.vx * 3, this.y + this.vy * 2);
 		ctx.stroke();
 	};
 }
@@ -107,8 +107,8 @@ function render() {
 	}
 	
 	// scroll clouds across screen
-	x += 0.5;
-	document.body.style.backgroundPosition = x + "px -90px";
+	x += 1;
+	document.body.style.backgroundPosition = x * 0.75 + "px -90px, " + x * 0.5 + "px -50px";
 	
 	// repeat render function
 	window.requestAnimationFrame(render);

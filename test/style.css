@@ -4,10 +4,10 @@ body {
 	display: block;
 	overflow: hidden;
 	
-	background-image: url("clouds1.png");
+	background-image: url("clouds1.png"), url("clouds2.png");
 	background-repeat: repeat-x;
 }
 
 html {
-    background: linear-gradient(#182430, #596d8c); /* Standard syntax */
+    background: linear-gradient(rgb(30, 39, 56), rgb(74, 100, 135)); /* Standard syntax */
 }
