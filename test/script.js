@@ -108,7 +108,7 @@ function render() {
 	
 	// scroll clouds across screen
 	x += 1;
-	document.body.style.backgroundPosition = x * 0.75 + "px -90px, " + x * 0.5 + "px -50px";
+	document.body.style.backgroundPosition = x * 0.75 + "px -90px, " + x * 0.5 + "px -50px, " + x * 0.25 + "px -50px, " + x * 0.15 + "px 100px";
 	
 	// repeat render function
 	window.requestAnimationFrame(render);
