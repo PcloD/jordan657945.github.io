@@ -65,7 +65,7 @@ function Drop() {
 	
 	// draw the drop
 	this.draw = function() {
-		ctx.strokeStyle = "rgba(50, 50, 255, 1)";
+		ctx.strokeStyle = "rgba(100, 100, 255, 0.5)";
 		ctx.lineWidth = this.width;
 		ctx.beginPath();
 		ctx.moveTo(this.x, this.y);
