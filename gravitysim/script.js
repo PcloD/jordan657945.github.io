@@ -29,7 +29,8 @@ function vector2(x, y) {
 	this.y = y;
 				
 	this.length = function() {
-		return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+		// return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+		return Math.sqrt(this.x * this.x + this.y * this.y);
 	};
 	
 	this.length2 = function() { // useful for operations in which length is squared to avoid redundancy in a sqrt operation

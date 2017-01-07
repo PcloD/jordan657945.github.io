@@ -1,10 +1,10 @@
 // establish vars
 var canvas, ctx, source, context, analyser, fbc_array, rads,
-center_x, center_y, radius, radius_old, deltarad, shockwave,
-bars, bar_x, bar_y, bar_x_term, bar_y_term, bar_width,
-bar_height, react_x, react_y, intensity, rot, inputURL,
-JSONPThing, JSONResponse, soundCloudTrackName, audio, pause,
-artist, title, img_url;
+	center_x, center_y, radius, radius_old, deltarad, shockwave,
+	bars, bar_x, bar_y, bar_x_term, bar_y_term, bar_width,
+	bar_height, react_x, react_y, intensity, rot, inputURL,
+	JSONPThing, JSONResponse, soundCloudTrackName, audio, pause,
+	artist, title, img_url;
 
 var client_id = "8df0d68fcc1920c92fc389b89e7ce20f";
 
