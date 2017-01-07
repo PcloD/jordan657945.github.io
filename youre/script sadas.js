@@ -1,15 +1,17 @@
 //initialize variables
 var canvas, ctx,
-	posx, posy, velx, vely,
-	inc;
+	source, context, analyser, fbc_array, binCount,
+	intensity, oldIntensity, deltaIntensity,
+	posx, posy,
+	hue;
 	
 // establish variables
-posx = 500;
-posy = 500;
-velx = random(1, 3);
-vely = -random(1, 3);
+binCount = 200;
 
-inc = 0
+posx = 60;
+posy = 0;
+
+hue = 0;
 
 // fits canvas to window
 function resize_canvas() {
@@ -51,6 +53,22 @@ function main() {
 	
 	// check if the window size has changed; resize if so
 	window.addEventListener("resize", resize_canvas, false);
+	
+	// music
+	audio = new Audio();
+	audio.crossOrigin = "anonymous";
+	audio.controls = true;
+	audio.loop = true;
+	
+	audio.src = "https://api.soundcloud.com/tracks/267845839/stream?client_id=8df0d68fcc1920c92fc389b89e7ce20f";
+	audio.play();
+	
+	context = new AudioContext();
+	analyser = context.createAnalyser();
+	// route audio playback
+	source = context.createMediaElementSource(audio);
+	source.connect(analyser);
+	analyser.connect(context.destination);
 
 	// render the frame
 	render();
@@ -58,35 +76,34 @@ function main() {
 
 // render canvas
 function render() {
-	ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	// ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+	// ctx.fillRect(0, 0, canvas.width, canvas.height);
 	
-	inc += 2;
+	// music analyzation
+	fbc_array = new Uint8Array(analyser.frequencyBinCount);
+	analyser.getByteFrequencyData(fbc_array);
 	
-	posx = posx + velx;
-	posy = posy + vely;
+	oldIntensity = intensity;
+	intensity = 0;
 	
-	if(posx > canvas.width) {
-		posx = canvas.width;
-		velx = -velx;
+	for (var i = 0; i < binCount; i++) {
+		intensity += fbc_array[i];
 	}
-	if(posx < 0) {
-		posx = 0;
-		velx = -velx;
+	
+	deltaIntensity = intensity - oldIntensity;
+	
+	// text
+	if(deltaIntensity > 1000) {
+		posy += 30;
+		hue += 10
+		
+		drawText(posx, posy, 0, 30, "hsl(" + hue % 360 + ", 100%, 50%)");
 	}
 	
 	if(posy > canvas.height) {
-		posy = canvas.height;
-		vely = -vely;
-	}
-	if(posy < 0) {
 		posy = 0;
-		vely = -vely;
+		posx += 100
 	}
-	
-	// text
-	// drawText(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * Math.PI * 2, 30,  "hsl(" + Math.random() * 360 + ", 100%, 50%)");
-	drawText(posx, posy, Math.sin(inc * 0.02) * 0.5, 80 + Math.sin(inc * 0.04) * 10, "hsl(" + inc % 360 + ", 100%, 50%)");
 	
 	// repeat render function
 	window.requestAnimationFrame(render);

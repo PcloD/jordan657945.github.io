@@ -1,9 +1,15 @@
 //initialize variables
 var canvas, ctx,
-	source, context, analyser, fbc_array;
+	posx, posy, velx, vely,
+	inc;
 	
 // establish variables
+posx = 500;
+posy = 500;
+velx = random(1, 3);
+vely = -random(1, 3);
 
+inc = 0
 
 // fits canvas to window
 function resize_canvas() {
@@ -45,22 +51,6 @@ function main() {
 	
 	// check if the window size has changed; resize if so
 	window.addEventListener("resize", resize_canvas, false);
-	
-	// music
-	audio = new Audio();
-	audio.crossOrigin = "anonymous";
-	audio.controls = true;
-	audio.loop = true;
-	
-	audio.src = "song.mp3";
-	audio.play();
-	
-	context = new AudioContext();
-	analyser = context.createAnalyser();
-	// route audio playback
-	source = context.createMediaElementSource(audio);
-	source.connect(analyser);
-	analyser.connect(context.destination);
 
 	// render the frame
 	render();
@@ -68,11 +58,35 @@ function main() {
 
 // render canvas
 function render() {
-	ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+	ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	
+	inc += 2;
+	
+	posx = posx + velx;
+	posy = posy + vely;
+	
+	if(posx > canvas.width) {
+		posx = canvas.width;
+		velx = -velx;
+	}
+	if(posx < 0) {
+		posx = 0;
+		velx = -velx;
+	}
+	
+	if(posy > canvas.height) {
+		posy = canvas.height;
+		vely = -vely;
+	}
+	if(posy < 0) {
+		posy = 0;
+		vely = -vely;
+	}
+	
 	// text
-
+	// drawText(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * Math.PI * 2, 30,  "hsl(" + Math.random() * 360 + ", 100%, 50%)");
+	drawText(posx, posy, Math.sin(inc * 0.02) * 0.5, 80 + Math.sin(inc * 0.04) * 10, "hsl(" + inc % 360 + ", 100%, 50%)");
 	
 	// repeat render function
 	window.requestAnimationFrame(render);
