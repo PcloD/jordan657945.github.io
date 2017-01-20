@@ -42,23 +42,15 @@ function initPage() {
 	source.connect(analyser);
 	analyser.connect(context.destination);
 	
+	fbc_array = new Uint8Array(analyser.frequencyBinCount);
+	
 	frameLooper();
 }
 
 function resize_canvas() {
-	if (canvas.width  != window.innerWidth) {
-		canvas.width  = window.innerWidth;
-	}
 
-	if (canvas.height != window.innerHeight) {
+		canvas.width  = window.innerWidth;
 		canvas.height = window.innerHeight;
-	}
-	
-	var bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
-	bg.addColorStop(0, "rgb(180, 140, 230)");
-	bg.addColorStop(1, "rgb(102, 102, 255)");
-	ctx.fillStyle = bg;
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 (function() {
@@ -177,16 +169,16 @@ function initMp3Player() {
 }
 			
 function frameLooper() {
-	window.requestAnimationFrame(frameLooper);
+	resize_canvas(); // for some reason i have to resize the canvas every update or else the framerate decreases over time
 				
 	var grd = ctx.createLinearGradient(0, 0, 0, canvas.height);
-	grd.addColorStop(0, "rgba(180, 140, 230, 0.5)");
-	grd.addColorStop(1, "rgba(102, 102, 255, 0.5)");
+	grd.addColorStop(0, "rgba(180, 140, 230, 1)");
+	grd.addColorStop(1, "rgba(102, 102, 255, 1)");
 
 	ctx.fillStyle = grd;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	
-	ctx.fillStyle = "rgba(255, 255, 255, " + (intensity * 0.00001 - 0.4) + ")";
+	ctx.fillStyle = "rgba(255, 255, 255, " + (intensity * 0.0000125 - 0.4) + ")";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 		
 	rot = rot + intensity * 0.0000001;
@@ -196,7 +188,6 @@ function frameLooper() {
 				
 	intensity = 0;
 				
-	fbc_array = new Uint8Array(analyser.frequencyBinCount);
 	analyser.getByteFrequencyData(fbc_array);
 	
 	for (var i = 0; i < bars; i++) {
@@ -214,9 +205,6 @@ function frameLooper() {
 		ctx.save();
 					
 		var lineColor = "rgb(" + (fbc_array[i]).toString() + ", " + 255 + ", " + 255 + ")";
-		
-		//ctx.shadowColor = lineColor;
-		//ctx.shadowBlur = 20;
 						
 		ctx.strokeStyle = lineColor;
 		ctx.lineWidth = bar_width;
@@ -224,8 +212,6 @@ function frameLooper() {
 		ctx.moveTo(bar_x, bar_y);
 		ctx.lineTo(bar_x_term, bar_y_term);
 		ctx.stroke();
-		
-		//ctx.restore();
 					
 		react_x += Math.cos(rads * i + rot) * (radius + bar_height);
 		react_y += Math.sin(rads * i + rot) * (radius + bar_height);
@@ -263,4 +249,6 @@ function frameLooper() {
 		
 		rot = rot + 0.4;
 	}
+	
+	window.requestAnimationFrame(frameLooper);
 }
