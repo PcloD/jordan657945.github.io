@@ -4,7 +4,7 @@ var canvas, ctx, source, context, analyser, fbc_array, rads,
 	bars, bar_x, bar_y, bar_x_term, bar_y_term, bar_width,
 	bar_height, react_x, react_y, intensity, rot, inputURL,
 	JSONPThing, JSONResponse, soundCloudTrackName, audio, pause,
-	artist, title, img_url;
+	artist, title, img_url, isSeeking;
 
 var client_id = "8df0d68fcc1920c92fc389b89e7ce20f";
 
@@ -18,15 +18,14 @@ shockwave = 0;
 rot = 0;
 intensity = 0;
 pause = 1;
+isSeeking = 0;
 
 function initPage() {
 	canvas = document.getElementById("visualizer_render");
 	ctx = canvas.getContext("2d");
-	
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
 
-	resize_canvas();
+	//resize_canvas();
+	
 	document.getElementById("artwork").style.opacity = 0;
 	
 	audio = new Audio();
@@ -249,6 +248,13 @@ function frameLooper() {
 		
 		rot = rot + 0.4;
 	}
+	
+	if (!isSeeking) {
+		document.getElementById("audioTime").value = (100 / audio.duration) * audio.currentTime;
+	}
+	
+	document.getElementById("time").innerHTML = Math.floor(audio.currentTime / 60) + ":" + (Math.floor(audio.currentTime % 60) < 10 ? "0" : "") + Math.floor(audio.currentTime % 60);
+
 	
 	window.requestAnimationFrame(frameLooper);
 }
